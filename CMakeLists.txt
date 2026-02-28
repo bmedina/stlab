@@ -15,6 +15,11 @@ include(${cpp-library_SOURCE_DIR}/cpp-library.cmake)
 # Enable dependency tracking BEFORE project()
 cpp_library_enable_dependency_tracking()
 
+# Set the default C++ language version BEFORE project() so it is applied
+set(CMAKE_CXX_STANDARD 20 CACHE STRING "The C++ standard to use")
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 ########################################################
 # Project declaration without hardcoded version
 project(stlab LANGUAGES CXX)
@@ -22,28 +27,30 @@ project(stlab LANGUAGES CXX)
 # Set version from git tags after project()
 cpp_library_set_version()
 
+# Ensure C++ exceptions are always enabled (STLab uses them; some presets/toolchains omit them).
+add_compile_options(
+  $<$<CXX_COMPILER_ID:MSVC>:/EHsc>
+  $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:AppleClang>>:-fexceptions>
+)
+
+include(CTest)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+
 # Create the main library target first
 add_library(stlab)
 add_library(stlab::stlab ALIAS stlab)
 
 ########################################################
 
-# Set the default C++ language version
-set(CMAKE_CXX_STANDARD 20 CACHE STRING "The C++ standard to use")
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
 # Set the default build type to Release
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build" FORCE)
 endif()
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 include(GNUInstallDirs)
 include(CMakeDependentOption)
 include(StlabUtil)
-# CTest must be included at the top level for tests to be found.
-include(CTest)
 
 find_package(libdispatch)
 find_package(Qt5 QUIET COMPONENTS Core)
@@ -54,8 +61,13 @@ cmake_dependent_option(stlab.coverage
   "Enable binary instrumentation to collect test coverage information in the DEBUG configuration"
   OFF PROJECT_IS_TOP_LEVEL OFF)
 
-stlab_check_disfunctional_coroutines(STLAB_DEFAULT_NO_STD_COROUTINES)
-option(STLAB_NO_STD_COROUTINES "Suppress usage of standard coroutines. Useful for non-conforming compilers." ${STLAB_DEFAULT_NO_STD_COROUTINES})
+# Coroutines are enabled for C++20+ by default. Use STLAB_NO_STD_COROUTINES to
+# force them off for non-conforming compilers.
+cmake_dependent_option(STLAB_NO_STD_COROUTINES
+  "Suppress usage of standard coroutines. Useful for non-conforming compilers."
+  OFF
+  "CMAKE_CXX_STANDARD VERSION_GREATER_EQUAL 20"
+  ON)
 if(STLAB_NO_STD_COROUTINES)
   set(STLAB_STD_COROUTINES 0)
 else()
@@ -171,12 +183,13 @@ elseif(STLAB_MAIN_EXECUTOR STREQUAL "qt6")
   target_link_libraries(stlab INTERFACE Qt6::Core)
 endif()
 
-message(STATUS "stlab: Disable Coroutines: ${STLAB_DEFAULT_NO_STD_COROUTINES}")
+message(STATUS "stlab: Disable Coroutines: ${STLAB_NO_STD_COROUTINES}")
 message(STATUS "stlab: Thread System: ${STLAB_THREAD_SYSTEM}")
 message(STATUS "stlab: Task System: ${STLAB_TASK_SYSTEM}")
 message(STATUS "stlab: Main Executor: ${STLAB_MAIN_EXECUTOR}")
 
 if(PROJECT_IS_TOP_LEVEL AND BUILD_TESTING)
+  CPMAddPackage("gh:doctest/doctest@2.4.12")
   add_subdirectory(test)
 endif()
 

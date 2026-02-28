@@ -1,33 +1,29 @@
 {
   "config": [
     {
-      "name": "Linux GCC 13",
+      "name": "Linux GCC",
       "compiler": "gcc",
-      "version": "13",
-      "os": "ubuntu-24.04"
+      "os": "ubuntu-latest"
     },
     {
-      "name": "Linux Clang 15",
+      "name": "Linux Clang",
       "compiler": "clang",
-      "version": "15",
-      "os": "ubuntu-22.04"
+      "os": "ubuntu-latest"
     },
     {
       "name": "macOS apple-clang latest",
       "compiler": "apple-clang",
-      "version": "latest",
       "os": "macos-latest"
     },
     {
-      "name": "Windows VS2022",
+      "name": "Windows",
       "compiler": "Visual Studio",
-      "version": "17",
-      "os": "windows-2022"
+      "os": "windows-latest"
     },
     {
       "name": "Linux Webassembly",
       "compiler": "emscripten",
-      "os": "ubuntu-22.04"
+      "os": "ubuntu-latest"
     }
   ]
 }

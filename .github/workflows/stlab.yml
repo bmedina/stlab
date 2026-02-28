@@ -9,11 +9,11 @@ on:
 jobs:
   generate-matrix:
     name: Generate job matrix
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v4.1.6
+      - uses: actions/checkout@v6
 
       - name: Generate job matrix
         id: set-matrix
@@ -30,22 +30,12 @@ jobs:
     name: ${{ matrix.config.name }}
 
     steps:
-      - uses: actions/checkout@v4.1.6
-
-      - name: Install dependencies // Linux (GCC|Clang)
-        if: ${{ startsWith(matrix.config.os, 'ubuntu') && !startsWith(matrix.config.compiler, 'emscripten') }}
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ninja-build
-        shell: bash
+      - uses: actions/checkout@v6
 
       - name: Install dependencies // Linux Emscripten
         if: ${{ startsWith(matrix.config.compiler, 'emscripten') }}
         shell: bash
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ninja-build
-
           git clone --depth 1 https://github.com/emscripten-core/emsdk.git $HOME/emsdk
           pushd $HOME/emsdk
           ./emsdk install latest
@@ -62,15 +52,15 @@ jobs:
         if: ${{ matrix.config.compiler == 'gcc' }}
         shell: bash
         run: |
-          echo "CC=gcc-${{matrix.config.version}}" >> $GITHUB_ENV
-          echo "CXX=g++-${{matrix.config.version}}" >> $GITHUB_ENV
+          echo "CC=gcc" >> $GITHUB_ENV
+          echo "CXX=g++" >> $GITHUB_ENV
 
       - name: Set enviroment variables // Linux Clang
         if: ${{ matrix.config.compiler == 'clang' }}
         shell: bash
         run: |
-          echo "CC=clang-${{matrix.config.version}}" >> $GITHUB_ENV
-          echo "CXX=clang++-${{matrix.config.version}}" >> $GITHUB_ENV
+          echo "CC=clang" >> $GITHUB_ENV
+          echo "CXX=clang++" >> $GITHUB_ENV
 
       - name: Configure // Unix !Emscripten
         if: ${{ (startsWith(matrix.config.os, 'ubuntu') || startsWith(matrix.config.os, 'macos')) && !startsWith(matrix.config.compiler, 'emscripten') }}
@@ -87,11 +77,13 @@ jobs:
           cmake -S. -B../build -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=23 \
             -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/cmake/Platform/Emscripten-STLab.cmake
 
+      - name: Setup MSVC
+        if: ${{ startsWith(matrix.config.os, 'windows') }}
+        uses: ilammy/msvc-dev-cmd@v1
+
       - name: Configure // Windows
         if: ${{ startsWith(matrix.config.os, 'windows') }}
-        shell: cmd
         run: |
-          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
           mkdir ..\build
           cmake -S. -B../build -GNinja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_STANDARD=20
 
@@ -103,13 +95,45 @@ jobs:
 
       - name: Build // Windows
         if: ${{ startsWith(matrix.config.os, 'windows') }}
-        shell: cmd
         run: |
-          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
           cmake --build ../build/
 
       - name: Test
         shell: bash
         run: |
           cd ../build/
+          ctest --output-on-failure --verbose
+
+  macos-tsan:
+    name: macOS TSan
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Configure
+        run: cmake --preset debug-sanitizer
+
+      - name: Build
+        run: cmake --build build/debug-sanitizer
+
+      - name: Test
+        run: |
+          cd build/debug-sanitizer
+          ctest --output-on-failure --verbose
+
+  macos-tsan-portable:
+    name: macOS TSan (portable)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Configure
+        run: cmake --preset debug-portable-sanitizer
+
+      - name: Build
+        run: cmake --build build/debug-portable-sanitizer
+
+      - name: Test
+        run: |
+          cd build/debug-portable-sanitizer
           ctest --output-on-failure --verbose

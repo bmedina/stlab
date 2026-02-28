@@ -10,11 +10,10 @@
 #include <cstddef>
 #include <cstdlib>
 #include <iostream>
-#include <memory>
 #include <string>
 
 // boost
-#include <boost/test/unit_test.hpp>
+#include <doctest/doctest.h>
 #include <tuple>
 #include <utility>
 
@@ -30,7 +29,9 @@
 #include <stlab/concurrency/tuple_algorithm.hpp>
 #include <stlab/utility.hpp>
 
-#if defined(__clang__)
+
+// cxxabi.h (demangling) is only available with libstdc++ (e.g. Linux/macOS Clang), not on Windows.
+#if defined(__clang__) && defined(__GLIBCXX__)
 #include <cxxabi.h>
 #endif
 
@@ -42,7 +43,7 @@ namespace {
 
 template <typename T>
 auto demangle() -> std::string {
-#if defined(__clang__)
+#if defined(__clang__) && defined(__GLIBCXX__)
     struct freer_t {
         void operator()(void* x) const { std::free(x); }
     };
@@ -50,7 +51,7 @@ auto demangle() -> std::string {
         abi::__cxa_demangle(typeid(T).name(), nullptr, nullptr, nullptr));
     return c_str.get();
 #else
-    return std::string();
+    return {};
 #endif
 }
 
@@ -65,7 +66,7 @@ using namespace stlab;
 
 /**************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(remove_placeholder_test) {
+TEST_CASE("remove_placeholder_test") {
     auto x = std::make_tuple(10, placeholder(), 25.0, placeholder());
 
     apply_indexed<index_sequence_transform_t<make_index_sequence<tuple_size_v<decltype(x)>>,
@@ -75,7 +76,7 @@ BOOST_AUTO_TEST_CASE(remove_placeholder_test) {
 
 /**************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(add_placeholder_test) {
+TEST_CASE("add_placeholder_test") {
     using interim_t = placeholder_tuple<int, void, int, void>;
 
     auto x = interim_t(10, placeholder(), 25, placeholder());
@@ -88,7 +89,10 @@ BOOST_AUTO_TEST_CASE(add_placeholder_test) {
 /**************************************************************************************************/
 
 template <typename F, typename... Ts>
-void when_all_typecheck(F, const future<Ts>&...) {
+void when_all_typecheck(
+    F f, const future<Ts>&... futures) { // NOLINT(cert-dcl50-cpp) parameter pack, not C variadic
+    (void)f;
+    (..., (void)futures);
     using pt_t = placeholder_tuple<Ts...>;
     using opt_t = optional_placeholder_tuple<Ts...>;
     using vt_t = voidless_tuple<Ts...>;
@@ -102,7 +106,7 @@ void when_all_typecheck(F, const future<Ts>&...) {
 
 /**************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(future_typecheck_test) {
+TEST_CASE("future_typecheck_test") {
     auto fv = [] { return stlab::make_ready_future(stlab::default_executor); };
     auto fi = [] {
         static int count_s{0};
@@ -116,7 +120,7 @@ BOOST_AUTO_TEST_CASE(future_typecheck_test) {
 
 /**************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(future_when_all_int_int) {
+TEST_CASE("future_when_all_int_int") {
     auto fi = [] {
         static int count_s{0};
         return stlab::make_ready_future<int>(count_s++, stlab::default_executor);
@@ -132,7 +136,7 @@ BOOST_AUTO_TEST_CASE(future_when_all_int_int) {
 
 /**************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(future_when_all_void) {
+TEST_CASE("future_when_all_void") {
     auto fv = [] { return stlab::make_ready_future(stlab::default_executor); };
 
     auto f = when_all(stlab::default_executor, []() { cout << "done!\n"; }, fv());
@@ -142,7 +146,7 @@ BOOST_AUTO_TEST_CASE(future_when_all_void) {
 
 /**************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(future_when_all_void_int) {
+TEST_CASE("future_when_all_void_int") {
     auto fv = [] { return stlab::make_ready_future(stlab::default_executor); };
     auto fi = [] {
         static int count_s{0};
@@ -159,7 +163,7 @@ BOOST_AUTO_TEST_CASE(future_when_all_void_int) {
 
 /**************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(future_when_all_int_void) {
+TEST_CASE("future_when_all_int_void") {
     auto fv = [] { return stlab::make_ready_future(stlab::default_executor); };
     auto fi = [] {
         static int count_s{0};
@@ -176,7 +180,7 @@ BOOST_AUTO_TEST_CASE(future_when_all_int_void) {
 
 /**************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(future_when_all_int_void_string_void_bool_void) {
+TEST_CASE("future_when_all_int_void_string_void_bool_void") {
     auto fv = [] { return stlab::make_ready_future(stlab::default_executor); };
     auto fi = [] { return stlab::make_ready_future<int>(42, stlab::default_executor); };
     auto fs = [] {
@@ -196,7 +200,7 @@ BOOST_AUTO_TEST_CASE(future_when_all_int_void_string_void_bool_void) {
 
 /**************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(future_when_any_void) {
+TEST_CASE("future_when_any_void") {
     auto fv = [] { return stlab::make_ready_future(stlab::default_executor); };
 
     auto f = when_any(
