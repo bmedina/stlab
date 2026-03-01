@@ -18,4 +18,5 @@ hyde:
       signature_with_names: "template <class I>\nauto pivot_of(I i)"
   namespace:
     - stlab
+    - v2_3_0
 ---

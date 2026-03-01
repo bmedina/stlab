@@ -30,5 +30,6 @@ hyde:
       signature_with_names: "template <typename I>\nvoid splice_node_range(I location, I first, I last)"
   namespace:
     - stlab
+    - v2_3_0
     - unsafe
 ---

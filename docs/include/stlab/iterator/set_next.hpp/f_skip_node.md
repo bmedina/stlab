@@ -18,5 +18,6 @@ hyde:
       signature_with_names: "template <typename I>\nvoid skip_node(I location)"
   namespace:
     - stlab
+    - v2_3_0
     - unsafe
 ---

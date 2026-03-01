@@ -30,4 +30,5 @@ hyde:
       signature_with_names: "template <typename I>\nauto reverse_until(I f, I m, I l) -> std::pair<I, I>"
   namespace:
     - stlab
+    - v2_3_0
 ---

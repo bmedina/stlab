@@ -21,4 +21,5 @@ hyde:
       signature_with_names: "template <class I>\nauto find_edge_reverse(I x, stlab::forest_edge edge) -> I"
   namespace:
     - stlab
+    - v2_3_0
 ---

@@ -38,4 +38,5 @@ hyde:
       signature_with_names: "template <class R, typename P>\nauto filter_fullorder_range(const R & x, P p)"
   namespace:
     - stlab
+    - v2_3_0
 ---

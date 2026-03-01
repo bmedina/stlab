@@ -32,5 +32,5 @@ hyde:
       signature_with_names: "template <typename F>\nauto operator&(stlab::executor e, F && f) -> executor_task_pair<F>"
   namespace:
     - stlab
-    - v2_1_0
+    - v2_3_0
 ---

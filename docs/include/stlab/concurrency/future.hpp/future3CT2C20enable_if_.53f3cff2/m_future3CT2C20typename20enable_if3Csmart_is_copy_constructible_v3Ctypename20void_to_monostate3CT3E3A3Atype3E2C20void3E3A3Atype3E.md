@@ -14,4 +14,24 @@ hyde:
         - defaulted
       description: __OPTIONAL__
       signature_with_names: future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type>()
+    future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type>(const future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> &):
+      annotation:
+        - defaulted
+      arguments:
+        - description: __OPTIONAL__
+          name: unnamed-0
+          type: const future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> &
+          unnamed: true
+      description: __OPTIONAL__
+      signature_with_names: future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type>(const future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> &)
+    future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type>(future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> &&):
+      annotation:
+        - defaulted
+      arguments:
+        - description: __OPTIONAL__
+          name: unnamed-0
+          type: future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> &&
+          unnamed: true
+      description: __OPTIONAL__
+      signature_with_names: future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type>(future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> &&)
 ---

@@ -8,15 +8,18 @@ hyde:
     - class
   inline:
     description:
-      - "***********************************************************************************************"
+      - Consumer side of a one-shot result (copyable T). Use `get_ready()` or `get_try()` to obtain the value.
   defined_in_file: stlab/concurrency/future.hpp
   declaration: "\nclass stlab::future;"
   dtor: unspecified
   typedefs:
     result_type:
       definition: T
-      description: __MISSING__
+      description: __INLINED__
+      inline:
+        description:
+          - The type of the value this future holds.
   namespace:
     - stlab
-    - v2_1_0
+    - v2_3_0
 ---

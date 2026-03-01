@@ -8,7 +8,7 @@ hyde:
     - class
   inline:
     description:
-      - "REVISIT (sean-parent) : As a typedef, this generates file names in the hyde documentation that are too long for windows. Moving to a class for now, but I may also change how this is used and have a single future < > class with conditional members for easier documentation."
+      - Maps `void` to `std::monostate` for uniform future result storage; other types unchanged.
   defined_in_file: stlab/concurrency/future.hpp
   declaration: "template <class T>\nstruct stlab::void_to_monostate;"
   ctor: unspecified
@@ -19,5 +19,5 @@ hyde:
       description: __MISSING__
   namespace:
     - stlab
-    - v2_1_0
+    - v2_3_0
 ---

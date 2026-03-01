@@ -23,10 +23,11 @@ hyde:
       description: __INLINED__
       inline:
         description:
-          - "***********************************************************************************************"
+          - Creates a packaged task and its future for the callable `f`, run on `executor`.
+        return: A pair (packaged_task, future); invoke the task to run `f` and complete the future.
       return: __OPTIONAL__
       signature_with_names: "template <class Sig, class E, class F>\nauto package(E executor, F && f) -> std::pair<detail::packaged_task_from_signature_t<Sig>, detail::reduced_result_t<Sig>>"
   namespace:
     - stlab
-    - v2_1_0
+    - v2_3_0
 ---

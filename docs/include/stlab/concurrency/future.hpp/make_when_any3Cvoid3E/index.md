@@ -8,12 +8,12 @@ hyde:
     - class
   inline:
     description:
-      - "***********************************************************************************************"
+      - Helper to implement when_any for void results.
   defined_in_file: stlab/concurrency/future.hpp
   declaration: "\nstruct stlab::make_when_any;"
   ctor: unspecified
   dtor: unspecified
   namespace:
     - stlab
-    - v2_1_0
+    - v2_3_0
 ---

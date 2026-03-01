@@ -8,7 +8,7 @@ hyde:
     - function
   inline:
     brief:
-      - "***********************************************************************************************"
+      - Runs `f` with `args` on `executor` and returns a future for the result.
   defined_in_file: stlab/concurrency/future.hpp
   overloads:
     "template <class E, class F, class... Args>\nauto async(const E &, F &&, Args &&...) -> detail::reduced_t<detail::result_t<std::decay_t<F>, std::decay_t<Args>...>>":
@@ -25,10 +25,10 @@ hyde:
       description: __INLINED__
       inline:
         description:
-          - "***********************************************************************************************"
+          - Runs `f` with `args` on `executor` and returns a future for the result.
       return: __OPTIONAL__
       signature_with_names: "template <class E, class F, class... Args>\nauto async(const E & executor, F && f, Args &&... args) -> detail::reduced_t<detail::result_t<std::decay_t<F>, std::decay_t<Args>...>>"
   namespace:
     - stlab
-    - v2_1_0
+    - v2_3_0
 ---

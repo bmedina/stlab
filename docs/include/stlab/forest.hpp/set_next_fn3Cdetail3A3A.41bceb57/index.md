@@ -15,5 +15,6 @@ hyde:
   dtor: unspecified
   namespace:
     - stlab
+    - v2_3_0
     - unsafe
 ---

@@ -43,5 +43,6 @@ hyde:
       signature_with_names: "template <typename R, typename I>\nauto reverse_append(R & range, I end) -> I"
   namespace:
     - stlab
+    - v2_3_0
     - unsafe
 ---

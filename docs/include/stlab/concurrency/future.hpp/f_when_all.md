@@ -24,7 +24,7 @@ hyde:
       description: Creates a joining future. When all passed `args` futures are fulfilled, then the continuation tasks defined with `f` is scheduled on the executor `executor`.
       inline:
         description:
-          - "***********************************************************************************************"
+          - Returns a future that completes when all futures in `[range.first, range.second)` are ready; `f` receives their values.
       return: __OPTIONAL__
       signature_with_names: "template <class E, class F, class I>\nauto when_all(const E & executor, F f, std::pair<I, I> range)"
     "template <class E, class F, class... Ts>\nauto when_all(const E &, F, future<Ts>...)":
@@ -41,10 +41,10 @@ hyde:
       description: Creates a joining future out of the given range. In case that it is a range of futures of move-only types, the futures are moved internally out of the range into the function.
       inline:
         description:
-          - "***********************************************************************************************"
+          - Returns a future that completes when all `args` are ready; `f` is invoked with their values (or first exception).
       return: The continuation on the group of passed futures.
       signature_with_names: "template <class E, class F, class... Ts>\nauto when_all(const E & executor, F f, future<Ts>... args)"
   namespace:
     - stlab
-    - v2_1_0
+    - v2_3_0
 ---

@@ -27,5 +27,6 @@ hyde:
       signature_with_names: "template <typename I>\nvoid set_next(const I & x, const I & y)"
   namespace:
     - stlab
+    - v2_3_0
     - unsafe
 ---

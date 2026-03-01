@@ -27,5 +27,5 @@ hyde:
       signature_with_names: "template <typename T, typename Op>\nvoid tuple_for_each(T & t, Op op)"
   namespace:
     - stlab
-    - v2_1_0
+    - v2_3_0
 ---

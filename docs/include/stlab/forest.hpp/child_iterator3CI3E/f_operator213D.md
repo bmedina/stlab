@@ -76,4 +76,5 @@ hyde:
       signature_with_names: "template <class T>\nauto operator!=(const forest<T> & x, const forest<T> & y) -> bool"
   namespace:
     - stlab
+    - v2_3_0
 ---

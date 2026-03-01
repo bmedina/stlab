@@ -34,5 +34,5 @@ hyde:
       signature_with_names: auto operator==(std::nullptr_t, const task_<NoExcept, R, Args...> & x) -> bool
   namespace:
     - stlab
-    - v2_1_0
+    - v2_3_0
 ---

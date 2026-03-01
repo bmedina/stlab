@@ -40,4 +40,5 @@ hyde:
       signature_with_names: "template <class I>\nauto is_leading(const I & i)"
   namespace:
     - stlab
+    - v2_3_0
 ---

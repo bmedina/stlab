@@ -28,7 +28,10 @@ hyde:
       description: __MISSING__
     void_to_monostate_t:
       definition: typename void_to_monostate<T>::type
-      description: __MISSING__
+      description: __INLINED__
+      inline:
+        description:
+          - Alias for `void_to_monostate <T >::type`.
     vt_t:
       definition: voidless_tuple<Ts...>
       description: __MISSING__

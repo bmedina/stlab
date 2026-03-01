@@ -40,4 +40,5 @@ hyde:
       signature_with_names: void pivot(stlab::forest_edge & i)
   namespace:
     - stlab
+    - v2_3_0
 ---

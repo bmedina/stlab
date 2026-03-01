@@ -3,9 +3,11 @@ layout: function
 title: operator!=
 hyde:
   owner: sean-parent
-  brief: __MISSING__
+  brief: __INLINED__
   tags:
     - function
+  inline:
+    brief: _multiple descriptions_
   defined_in_file: stlab/concurrency/future.hpp
   overloads:
     auto operator!=(const future<T, typename enable_if<!smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> &, const future<T, typename enable_if<!smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> &) -> bool:
@@ -16,7 +18,10 @@ hyde:
         - description: __OPTIONAL__
           name: y
           type: const future<T, typename enable_if<!smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> &
-      description: __MISSING__
+      description: __INLINED__
+      inline:
+        description:
+          - True if `x` and `y` do not share the same shared state.
       return: __OPTIONAL__
       signature_with_names: auto operator!=(const future<T, typename enable_if<!smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> & x, const future<T, typename enable_if<!smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> & y) -> bool
     auto operator!=(const future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> &, const future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> &) -> bool:
@@ -27,7 +32,10 @@ hyde:
         - description: __OPTIONAL__
           name: y
           type: const future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> &
-      description: __MISSING__
+      description: __INLINED__
+      inline:
+        description:
+          - True if `x` and `y` do not share the same shared state.
       return: __OPTIONAL__
       signature_with_names: auto operator!=(const future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> & x, const future<T, typename enable_if<smart_is_copy_constructible_v<typename void_to_monostate<T>::type>, void>::type> & y) -> bool
     auto operator!=(const stlab::future<void> &, const stlab::future<void> &) -> bool:
@@ -38,10 +46,13 @@ hyde:
         - description: __OPTIONAL__
           name: y
           type: const stlab::future<void> &
-      description: __MISSING__
+      description: __INLINED__
+      inline:
+        description:
+          - True if `x` and `y` do not share the same shared state.
       return: __OPTIONAL__
       signature_with_names: auto operator!=(const stlab::future<void> & x, const stlab::future<void> & y) -> bool
   namespace:
     - stlab
-    - v2_1_0
+    - v2_3_0
 ---

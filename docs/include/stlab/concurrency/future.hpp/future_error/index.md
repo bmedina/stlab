@@ -8,11 +8,11 @@ hyde:
     - class
   inline:
     description:
-      - future exception
+      - Exception thrown when a future-related contract is violated (e.g. `broken_promise`, `no_state`).
   defined_in_file: stlab/concurrency/future.hpp
   declaration: "\nclass stlab::future_error;"
   dtor: unspecified
   namespace:
     - stlab
-    - v2_1_0
+    - v2_3_0
 ---

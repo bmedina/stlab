@@ -3,9 +3,12 @@ layout: function
 title: invoke_remove_monostate_arguments
 hyde:
   owner: sean-parent
-  brief: __MISSING__
+  brief: __INLINED__
   tags:
     - function
+  inline:
+    brief:
+      - Invokes `f` with `args` after removing `std::monostate` values (for void future results).
   defined_in_file: stlab/concurrency/future.hpp
   overloads:
     "template <class F, class... Args>\nauto invoke_remove_monostate_arguments(F &&, Args &&...)":
@@ -16,10 +19,13 @@ hyde:
         - description: __OPTIONAL__
           name: args
           type: Args &&...
-      description: __OPTIONAL__
+      description: __INLINED__
+      inline:
+        description:
+          - Invokes `f` with `args` after removing `std::monostate` values (for void future results).
       return: __OPTIONAL__
       signature_with_names: "template <class F, class... Args>\nauto invoke_remove_monostate_arguments(F && f, Args &&... args)"
   namespace:
     - stlab
-    - v2_1_0
+    - v2_3_0
 ---

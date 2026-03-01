@@ -24,4 +24,5 @@ hyde:
       signature_with_names: "template <class I>\nauto child_range(const I & x)"
   namespace:
     - stlab
+    - v2_3_0
 ---

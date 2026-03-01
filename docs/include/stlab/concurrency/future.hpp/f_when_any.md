@@ -24,7 +24,7 @@ hyde:
       description: __INLINED__
       inline:
         description:
-          - "***********************************************************************************************"
+          - Returns a future that completes when any future in `[range.first, range.second)` is ready; `f` receives the result and the index of the future that completed first (as a second argument of type `std::size_t`).
       return: __OPTIONAL__
       signature_with_names: "template <class E, class F, class I>\nauto when_any(const E & executor, F && f, std::pair<I, I> range)"
     "template <class E, class F, class T, class... Ts>\nauto when_any(E &&, F &&, future<T> &&, future<Ts> &&...)":
@@ -44,12 +44,12 @@ hyde:
       description: __INLINED__
       inline:
         description:
-          - "***********************************************************************************************"
+          - Returns a future that completes when any of the given futures is ready; `f` receives the value and the index of the future that completed first (as a second argument of type `std::size_t`).
       return: __OPTIONAL__
       signature_with_names: "template <class E, class F, class T, class... Ts>\nauto when_any(E && executor, F && f, future<T> && arg, future<Ts> &&... args)"
   namespace:
     - stlab
-    - v2_1_0
+    - v2_3_0
 ---
 
 Creates a future that continues on the first success of any futures passed. The results of all passed futures must be convertible to the first parameter of the continuing function. The function must accept the a second parameter of std::size_t. It will receive the index of the future that succeeded first.

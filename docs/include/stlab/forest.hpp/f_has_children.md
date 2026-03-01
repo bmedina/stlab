@@ -24,4 +24,5 @@ hyde:
       signature_with_names: "template <class I>\nauto has_children(const I & i) -> bool"
   namespace:
     - stlab
+    - v2_3_0
 ---

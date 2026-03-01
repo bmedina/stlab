@@ -32,4 +32,5 @@ hyde:
       signature_with_names: "template <class R>\nauto reverse_fullorder_range(const R & x)"
   namespace:
     - stlab
+    - v2_3_0
 ---

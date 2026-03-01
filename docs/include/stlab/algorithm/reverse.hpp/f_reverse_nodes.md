@@ -37,5 +37,6 @@ hyde:
       signature_with_names: "template <typename R>\nauto reverse_nodes(R & range) -> typename R::iterator"
   namespace:
     - stlab
+    - v2_3_0
     - unsafe
 ---

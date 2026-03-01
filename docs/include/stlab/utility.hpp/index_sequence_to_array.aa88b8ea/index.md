@@ -16,5 +16,5 @@ hyde:
       type: const std::array<std::size_t, sizeof...(N)>
   namespace:
     - stlab
-    - v2_1_0
+    - v2_3_0
 ---

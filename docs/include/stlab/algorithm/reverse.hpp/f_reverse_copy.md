@@ -40,4 +40,5 @@ hyde:
       signature_with_names: "template <class BidirectionalRange, class OutputIterator>\nvoid reverse_copy(const BidirectionalRange & range, OutputIterator result)"
   namespace:
     - stlab
+    - v2_3_0
 ---

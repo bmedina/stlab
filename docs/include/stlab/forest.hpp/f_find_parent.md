@@ -24,6 +24,7 @@ hyde:
       signature_with_names: "template <class I>\nauto find_parent(I i) -> I"
   namespace:
     - stlab
+    - v2_3_0
 ---
 
 The time complexity for this operation is $O(N)$, where $N$ is the number of child nodes of the parent.

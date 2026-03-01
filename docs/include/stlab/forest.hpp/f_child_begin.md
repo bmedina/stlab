@@ -24,4 +24,5 @@ hyde:
       signature_with_names: "template <class I>\nauto child_begin(const I & x) -> child_iterator<I>"
   namespace:
     - stlab
+    - v2_3_0
 ---

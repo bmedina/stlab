@@ -8,7 +8,7 @@ hyde:
     - function
   inline:
     brief:
-      - invoke mapping void to std::monostate
+      - Invokes `f` with `args` and returns its result, or `std::monostate{}` if the result is void.
   defined_in_file: stlab/concurrency/future.hpp
   overloads:
     "template <class F, class... Args>\nauto invoke_void_to_monostate_result(F &&, Args &&...)":
@@ -22,10 +22,10 @@ hyde:
       description: __INLINED__
       inline:
         description:
-          - invoke mapping void to std::monostate
+          - Invokes `f` with `args` and returns its result, or `std::monostate{}` if the result is void.
       return: __OPTIONAL__
       signature_with_names: "template <class F, class... Args>\nauto invoke_void_to_monostate_result(F && f, Args &&... args)"
   namespace:
     - stlab
-    - v2_1_0
+    - v2_3_0
 ---

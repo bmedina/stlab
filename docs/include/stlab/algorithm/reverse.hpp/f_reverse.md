@@ -24,4 +24,5 @@ hyde:
       signature_with_names: "template <class BidirectionalRange>\nvoid reverse(BidirectionalRange & range)"
   namespace:
     - stlab
+    - v2_3_0
 ---
