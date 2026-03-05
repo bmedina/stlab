@@ -15,6 +15,8 @@
 #include "stlab/config.hpp"   // for STLAB_TASK_SYSTEM, STLAB_TASK_SYSTEM_L...
 #include "stlab/pre_exit.hpp" // for at_pre_exit
 
+extern "C" void stlab_at_pre_exit_first(stlab::pre_exit_handler f);
+
 namespace stlab {
 inline namespace STLAB_VERSION_NAMESPACE() {
 namespace detail {
@@ -24,7 +26,7 @@ auto group() -> const group_t& {
     // Use an immediately executed lambda to atomically register pre-exit handler
     // and create the dispatch group.
     static group_t g{[] {
-        at_pre_exit([]() noexcept { // <br>
+        stlab_at_pre_exit_first([]() noexcept { // <br>
             dispatch_group_wait(g._group, DISPATCH_TIME_FOREVER);
         });
         return group_t{};
@@ -46,7 +48,7 @@ priority_task_system& pts() {
     // Uses the `nullptr` constructor with an immediate executed lambda to register the task
     // system in a thread safe manner.
     static priority_task_system only_task_system{[] {
-        at_pre_exit([]() noexcept { only_task_system.join(); });
+        stlab_at_pre_exit_first([]() noexcept { only_task_system.join(); });
         return nullptr;
     }()};
     return only_task_system;
@@ -58,7 +60,7 @@ priority_task_system& pts() {
 template <executor_priority P>
 task_system<P>& single_task_system() {
     static task_system<P> _task_system{[] {
-        at_pre_exit([]() noexcept { single_task_system<P>().join(); });
+        stlab_at_pre_exit_first([]() noexcept { single_task_system<P>().join(); });
         return task_system<P>{};
     }()};
     return _task_system;
