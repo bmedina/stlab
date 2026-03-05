@@ -224,7 +224,7 @@ add_test(
 add_executable(stlab.test.pre_exit_order
   pre_exit_order_test.cpp)
 
-target_link_libraries(stlab.test.pre_exit_order PUBLIC stlab::stlab)
+target_link_libraries(stlab.test.pre_exit_order PUBLIC stlab::testing)
 
 add_test(
   NAME stlab.test.pre_exit_order

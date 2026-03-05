@@ -18,8 +18,10 @@
     so the test passes regardless. It remains valuable as a regression test for all platforms.
 */
 
+#define DOCTEST_CONFIG_IMPLEMENT
+#include <doctest/doctest.h>
+
 #include <atomic>
-#include <cstdlib>
 
 #include <stlab/concurrency/default_executor.hpp>
 #include <stlab/pre_exit.hpp>
@@ -40,7 +42,7 @@ void client_handler() noexcept {
 
 } // namespace
 
-int main() {
+TEST_CASE("pre_exit handler registered before executor init can still use executor") {
     // Register client handler BEFORE any executor use — this places it at index 0.
     stlab::at_pre_exit(client_handler);
 
@@ -49,10 +51,18 @@ int main() {
     stlab::default_executor([&init_done]() noexcept { init_done = true; });
     while (!init_done) {
     }
+}
+
+int main(int argc, char** argv) {
+    doctest::Context ctx;
+    ctx.applyCommandLine(argc, argv);
+    int res = ctx.run();
+    if (ctx.shouldExit()) return res;
 
     // pre_exit() pops from back (LIFO). Without the fix, teardown (index 1) runs
     // before client_handler (index 0), destroying the pool first.
     stlab::pre_exit();
 
-    return client_handler_succeeded ? EXIT_SUCCESS : EXIT_FAILURE;
+    // CHECK cannot be used outside a test case, so validate via return code.
+    return res || !client_handler_succeeded;
 }
