@@ -220,6 +220,20 @@ add_test(
 )
 
 ################################################################################
+
+add_executable(stlab.test.pre_exit_order
+  pre_exit_order_test.cpp)
+
+target_link_libraries(stlab.test.pre_exit_order PUBLIC stlab::stlab)
+
+add_test(
+  NAME stlab.test.pre_exit_order
+  COMMAND stlab.test.pre_exit_order
+)
+
+set_tests_properties(stlab.test.pre_exit_order PROPERTIES TIMEOUT 10)
+
+################################################################################
 #
 # tests are compiled without compiler extensions to ensure the stlab headers
 # are not dependent upon any such extension.
