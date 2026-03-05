@@ -234,6 +234,18 @@ add_test(
 set_tests_properties(stlab.test.pre_exit_order PROPERTIES TIMEOUT 10)
 
 ################################################################################
+
+add_executable(stlab.test.pre_exit_first
+  pre_exit_first_test.cpp)
+
+target_link_libraries(stlab.test.pre_exit_first PUBLIC stlab::testing)
+
+add_test(
+  NAME stlab.test.pre_exit_first
+  COMMAND stlab.test.pre_exit_first
+)
+
+################################################################################
 #
 # tests are compiled without compiler extensions to ensure the stlab headers
 # are not dependent upon any such extension.
