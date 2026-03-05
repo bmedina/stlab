@@ -32,6 +32,15 @@ struct pre_exit_stack_t {
         _stack.push_back(f);
     }
 
+    /// Push an exit handler to the front so it is popped (executed) last.
+    void push_front(pre_exit_handler f) {
+        lock_t lock{_mutex};
+        assert(
+            !_closed &&
+            "WARNING: Adding pre-exit handler with `at_pre_exit()` after `pre_exit()` completed.");
+        _stack.insert(_stack.begin(), f);
+    }
+
     /// Pop one exit handler, returns `nullptr` and closes stack if empty.
     auto pop() -> pre_exit_handler {
         lock_t lock{_mutex};
@@ -65,6 +74,8 @@ extern "C" void stlab_pre_exit() {
 }
 
 extern "C" void stlab_at_pre_exit(pre_exit_handler f) { pre_exit_stack().push(f); }
+
+extern "C" void stlab_at_pre_exit_first(pre_exit_handler f) { pre_exit_stack().push_front(f); }
 
 } // namespace v2
 } // namespace stlab

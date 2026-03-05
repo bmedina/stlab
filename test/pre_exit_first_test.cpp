@@ -55,11 +55,11 @@ int main(int argc, char** argv) {
     stlab::pre_exit();
 
     // Verify: 3 runs first, then 1, then 2 (front-inserted) last.
-    REQUIRE(execution_order.size() == 3);
-    CHECK(execution_order[0] == 3);
-    CHECK(execution_order[1] == 1);
-    CHECK(execution_order[2] == 2);
+    // CHECK/REQUIRE cannot be used outside a test case, so validate via return code.
+    if (execution_order.size() != 3) return 1;
+    if (execution_order[0] != 3) return 1;
+    if (execution_order[1] != 1) return 1;
+    if (execution_order[2] != 2) return 1;
 
-    return res || execution_order.size() != 3 || execution_order[0] != 3 ||
-           execution_order[1] != 1 || execution_order[2] != 2;
+    return res;
 }
